@@ -21,6 +21,8 @@ import type {
   DefaultType,
 } from './src/core';
 
+import * as c from './custom';
+
 
 /* === schema: public === */
 
@@ -38,8 +40,10 @@ export declare namespace items {
     description: string | null;
     content: string | null;
     keywords: string[] | null;
+    published_on: Date;
     created_at: Date;
     updated_at: Date;
+    searchable_index: c.PgTsvector | null;
   }
   export interface Insertable {
     id?: string | Parameter<string> | DefaultType | SQLFragment;
@@ -48,8 +52,10 @@ export declare namespace items {
     description?: string | Parameter<string> | null | DefaultType | SQLFragment;
     content?: string | Parameter<string> | null | DefaultType | SQLFragment;
     keywords?: string[] | Parameter<string[]> | null | DefaultType | SQLFragment;
+    published_on?: Date | Parameter<Date> | DateString | DefaultType | SQLFragment;
     created_at?: Date | Parameter<Date> | DateString | DefaultType | SQLFragment;
     updated_at?: Date | Parameter<Date> | DateString | DefaultType | SQLFragment;
+    searchable_index?: c.PgTsvector | Parameter<c.PgTsvector> | null | DefaultType | SQLFragment;
   }
   export interface Updatable extends Partial<Insertable> { }
   export type Whereable = { [K in keyof Insertable]?: Exclude<Insertable[K] | ParentColumn, null | DefaultType> };

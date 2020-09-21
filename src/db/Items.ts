@@ -6,10 +6,7 @@ import * as s from "../zapatos/schema";
 import { Item } from "../core";
 
 const rowToItem = (item: s.items.Selectable): Item => ({
-  id: item.id,
-  title: item.title,
-  description: item.description,
-  content: item.content,
+  ...item,
   keywords: item.keywords ? item.keywords : [],
 });
 
