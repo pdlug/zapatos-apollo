@@ -1,6 +1,6 @@
 # Typescript GraphQL server using Apollo + Zapatos (PostgreSQL)
 
-This is a fully functional example of a GraphQL server that uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/) with PostgreSQL as a backing datastore. The [Zapatos](https:// jawj.github.io/zapatos/) "zero-abstraction" PostgreSQL library is used to generate Typescript types from the database schema and provide typesafe utilities for queries. [GraphQL code generator](https://graphql-code-generator.com/) is used to generate types from the GraphQL schema for the resolvers. Using both of these we're able to achieve a reasonably good level of end-to-end typesafety from the GraphQL layer through to the database.
+This is a fully functional example of a GraphQL server that uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/) with PostgreSQL as a backing datastore. The [Zapatos](https://jawj.github.io/zapatos/) "zero-abstraction" PostgreSQL library is used to generate Typescript types from the database schema and provide typesafe utilities for queries. [GraphQL code generator](https://graphql-code-generator.com/) is used to generate types from the GraphQL schema for the resolvers. Using both of these we're able to achieve a reasonably good level of end-to-end typesafety from the GraphQL layer through to the database.
 
 ## Prerequisities
 
