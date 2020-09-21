@@ -1,0 +1,12 @@
+mutation {
+  createItem(
+    input: {
+      title: "Item 1"
+      description: "The first test item"
+      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tincidunt augue interdum velit euismod. Tincidunt id aliquet risus feugiat in ante metus dictum. Eget est lorem ipsum dolor sit amet. Porta non pulvinar neque laoreet suspendisse interdum consectetur. Non pulvinar neque laoreet suspendisse"
+      keywords: ["tag1", "tag2"]
+    }
+  ) {
+    id
+  }
+}

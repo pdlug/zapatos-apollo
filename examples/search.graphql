@@ -1,0 +1,8 @@
+{
+  items(q: "item") {
+    id
+    title
+    description
+    keywords
+  }
+}

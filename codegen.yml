@@ -1,0 +1,17 @@
+overwrite: true
+schema: ./src/graphql/schema.ts
+generates:
+  src/generated/resolver-types.ts:
+    plugins:
+      - add:
+          content: "/* eslint-disable */\n/* AUTO GENERATED, DO NOT EDIT */"
+      - typescript
+      - typescript-resolvers
+    config:
+      maybeValue: T | null
+      namingConvention:
+        enumValues: keep
+      useIndexSignature: true
+      avoidOptionals:
+        inputValue: false
+        object: false
