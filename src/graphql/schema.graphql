@@ -1,26 +1,72 @@
+"""
+A item containing some content
+"""
 type Item {
+  "Primary identifier"
   id: ID!
+
+  "Title"
   title: String!
+
+  "Short description"
   description: String
+
+  "Contents"
   content: String
+
+  "Keywords"
   keywords: [String!]!
 }
 
+"""
+Query root
+"""
 type Query {
-  items(q: String): [Item!]!
-  item(id: ID!): Item
+  "Retrieve all items"
+  items(
+    "Search query (optional)"
+    q: String
+  ): [Item!]!
+
+  "Retrieve an item by its ID"
+  item(
+    "ID of the item"
+    id: ID!
+  ): Item
 }
 
+"""
+Item to create
+"""
 input CreateItemInput {
+  "Title"
   title: String!
+
+  "Short description"
   description: String
+
+  "Contents"
   content: String
+
+  "Keywords"
   keywords: [String!]
 }
 
+"""
+Mutation root
+"""
 type Mutation {
-  createItem(input: CreateItemInput!): Item
-  deleteItem(id: ID!): Boolean
+  "Create a new item"
+  createItem(
+    "Item to create"
+    input: CreateItemInput!
+  ): Item
+
+  "Delete an item"
+  deleteItem(
+    "ID of the item to delete"
+    id: ID!
+  ): Boolean
 }
 
 schema {
