@@ -5,10 +5,11 @@ import * as s from "../zapatos/schema";
 
 import { Item } from "../core";
 
-const rowToItem = (item: s.items.Selectable): Item => ({
+const rowToItem = (item: s.items.Selectable | s.items.JSONSelectable): Item => ({
   ...item,
   keywords: item.keywords ? item.keywords : [],
-  publishedOn: item.published_on.toISOString().substring(0, 10),
+  publishedOn:
+    typeof item.published_on === "string" ? item.published_on : item.published_on.toISOString().substring(0, 10),
 });
 
 type CreateItemProps = Pick<Item, "title" | "description" | "content" | "keywords">;
@@ -16,21 +17,8 @@ type CreateItemProps = Pick<Item, "title" | "description" | "content" | "keyword
 /*
  * Create a new item, returns the newly created item
  */
-export const create = async (
-  pool: pg.Pool,
-  { title, description, content, keywords }: CreateItemProps
-): Promise<Item> => {
-  const item: s.items.Insertable = {
-    title,
-    description,
-    content,
-    keywords,
-  };
-
-  const [insertedItem] = await db.sql<s.items.SQL, s.items.Selectable[]>`
-    INSERT INTO ${"items"} (${db.cols(item)})
-    VALUES (${db.vals(item)}) RETURNING *
-  `.run(pool);
+export const create = async (pool: pg.Pool, item: CreateItemProps): Promise<Item> => {
+  const insertedItem = await db.insert("items", item).run(pool);
 
   return rowToItem(insertedItem);
 };
@@ -39,9 +27,7 @@ export const create = async (
  * Retrieve all items
  */
 export const all = async (pool: pg.Pool): Promise<Item[]> => {
-  const items = await db.sql<s.items.SQL, s.items.Selectable[]>`
-    SELECT * FROM ${"items"}
-  `.run(pool);
+  const items = await db.select("items", db.all).run(pool);
 
   return items.map(rowToItem);
 };
@@ -50,10 +36,7 @@ export const all = async (pool: pg.Pool): Promise<Item[]> => {
  * Retrieve an item by its ID.
  */
 export const getById = async (pool: pg.Pool, id: string): Promise<Item | null> => {
-  const [item] = await db.sql<s.items.SQL, s.items.Selectable[]>`
-    SELECT * FROM ${"items"} WHERE ${"id"} = ${db.vals({ id })} LIMIT 1
-  `.run(pool);
-
+  const item = await db.selectOne("items", { id }).run(pool);
   return item ? rowToItem(item) : null;
 };
 
