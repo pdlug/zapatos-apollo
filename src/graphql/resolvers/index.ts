@@ -12,10 +12,19 @@ const item: QueryResolvers["item"] = async (_root, { id }) => {
 
 const createItem: MutationResolvers["createItem"] = async (_root, { input }) => {
   const item = await db.Items.create(db.pool, {
-    title: input.title,
-    description: input.description,
-    content: input.content,
+    ...input,
     keywords: input.keywords ? input.keywords : [],
+  });
+
+  return item;
+};
+
+const updateItem: MutationResolvers["updateItem"] = async (_root, { id, input }) => {
+  const item = await db.Items.update(db.pool, id, {
+    ...(input.title && { title: input.title }),
+    ...(input.content !== undefined && { content: input.content }),
+    ...(input.description !== undefined && { description: input.description }),
+    ...(input.keywords && { keywords: input.keywords }),
   });
 
   return item;
@@ -32,6 +41,7 @@ export const resolvers: Required<Pick<Resolvers, "Mutation" | "Query">> = {
   },
   Mutation: {
     createItem,
+    updateItem,
     deleteItem,
   },
 };

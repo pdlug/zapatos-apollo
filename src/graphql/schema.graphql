@@ -53,6 +53,23 @@ input CreateItemInput {
 }
 
 """
+Fields to update on an item
+"""
+input UpdateItemInput {
+  "Title"
+  title: String
+
+  "Short description"
+  description: String
+
+  "Contents"
+  content: String
+
+  "Keywords"
+  keywords: [String!]
+}
+
+"""
 Mutation root
 """
 type Mutation {
@@ -60,6 +77,15 @@ type Mutation {
   createItem(
     "Item to create"
     input: CreateItemInput!
+  ): Item
+
+  "Update an existing item"
+  updateItem(
+    "ID of the item to update"
+    id: ID!
+
+    "Fields/values to update"
+    input: UpdateItemInput!
   ): Item
 
   "Delete an item"

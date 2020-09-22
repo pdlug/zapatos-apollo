@@ -3,5 +3,6 @@ export type Item = {
   title: string;
   description?: string | null;
   content?: string | null;
+  publishedOn: string;
   keywords: string[];
 };

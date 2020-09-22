@@ -13,50 +13,92 @@ export type Scalars = {
   Float: number;
 };
 
+/** A item containing some content */
 export type Item = {
   __typename?: 'Item';
+  /** Primary identifier */
   id: Scalars['ID'];
+  /** Title */
   title: Scalars['String'];
+  /** Short description */
   description?: Maybe<Scalars['String']>;
+  /** Contents */
   content?: Maybe<Scalars['String']>;
+  /** Keywords */
   keywords: Array<Scalars['String']>;
 };
 
+/** Query root */
 export type Query = {
   __typename?: 'Query';
+  /** Retrieve all items */
   items: Array<Item>;
+  /** Retrieve an item by its ID */
   item?: Maybe<Item>;
 };
 
 
+/** Query root */
 export type QueryItemsArgs = {
   q?: Maybe<Scalars['String']>;
 };
 
 
+/** Query root */
 export type QueryItemArgs = {
   id: Scalars['ID'];
 };
 
+/** Item to create */
 export type CreateItemInput = {
+  /** Title */
   title: Scalars['String'];
+  /** Short description */
   description?: Maybe<Scalars['String']>;
+  /** Contents */
   content?: Maybe<Scalars['String']>;
+  /** Keywords */
   keywords?: Maybe<Array<Scalars['String']>>;
 };
 
+/** Fields to update on an item */
+export type UpdateItemInput = {
+  /** Title */
+  title?: Maybe<Scalars['String']>;
+  /** Short description */
+  description?: Maybe<Scalars['String']>;
+  /** Contents */
+  content?: Maybe<Scalars['String']>;
+  /** Keywords */
+  keywords?: Maybe<Array<Scalars['String']>>;
+};
+
+/** Mutation root */
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create a new item */
   createItem?: Maybe<Item>;
+  /** Update an existing item */
+  updateItem?: Maybe<Item>;
+  /** Delete an item */
   deleteItem?: Maybe<Scalars['Boolean']>;
 };
 
 
+/** Mutation root */
 export type MutationCreateItemArgs = {
   input: CreateItemInput;
 };
 
 
+/** Mutation root */
+export type MutationUpdateItemArgs = {
+  id: Scalars['ID'];
+  input: UpdateItemInput;
+};
+
+
+/** Mutation root */
 export type MutationDeleteItemArgs = {
   id: Scalars['ID'];
 };
@@ -145,6 +187,7 @@ export type ResolversTypes = ResolversObject<{
   String: ResolverTypeWrapper<Scalars['String']>;
   Query: ResolverTypeWrapper<{}>;
   CreateItemInput: CreateItemInput;
+  UpdateItemInput: UpdateItemInput;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
@@ -156,6 +199,7 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String'];
   Query: {};
   CreateItemInput: CreateItemInput;
+  UpdateItemInput: UpdateItemInput;
   Mutation: {};
   Boolean: Scalars['Boolean'];
 }>;
@@ -176,6 +220,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createItem: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationCreateItemArgs, 'input'>>;
+  updateItem: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationUpdateItemArgs, 'id' | 'input'>>;
   deleteItem: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteItemArgs, 'id'>>;
 }>;
 

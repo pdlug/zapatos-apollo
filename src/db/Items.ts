@@ -8,6 +8,7 @@ import { Item } from "../core";
 const rowToItem = (item: s.items.Selectable): Item => ({
   ...item,
   keywords: item.keywords ? item.keywords : [],
+  publishedOn: item.published_on.toISOString().substring(0, 10),
 });
 
 type CreateItemProps = Pick<Item, "title" | "description" | "content" | "keywords">;
@@ -54,6 +55,17 @@ export const getById = async (pool: pg.Pool, id: string): Promise<Item | null> =
   `.run(pool);
 
   return item ? rowToItem(item) : null;
+};
+
+type UpdateItemProps = Partial<Pick<Item, "title" | "description" | "content" | "keywords">>;
+
+/*
+ * Update an item given its ID.
+ */
+export const update = async (pool: pg.Pool, id: string, fields: UpdateItemProps): Promise<Item | null> => {
+  const [item] = await db.update("items", fields, { id }).run(pool);
+
+  return item ? getById(pool, id) : null;
 };
 
 /*
