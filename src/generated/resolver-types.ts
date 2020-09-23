@@ -26,6 +26,8 @@ export type Item = {
   content?: Maybe<Scalars['String']>;
   /** Keywords */
   keywords: Array<Scalars['String']>;
+  /** Publication date in YYYY-MM-DD format */
+  publishedOn: Scalars['String'];
 };
 
 /** Query root */
@@ -59,6 +61,8 @@ export type CreateItemInput = {
   content?: Maybe<Scalars['String']>;
   /** Keywords */
   keywords?: Maybe<Array<Scalars['String']>>;
+  /** Publication date in YYYY-MM-DD format */
+  publishedOn?: Maybe<Scalars['String']>;
 };
 
 /** Fields to update on an item */
@@ -71,6 +75,8 @@ export type UpdateItemInput = {
   content?: Maybe<Scalars['String']>;
   /** Keywords */
   keywords?: Maybe<Array<Scalars['String']>>;
+  /** Publication date in YYYY-MM-DD format */
+  publishedOn?: Maybe<Scalars['String']>;
 };
 
 /** Mutation root */
@@ -210,6 +216,7 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
   description: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   content: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   keywords: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  publishedOn: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 

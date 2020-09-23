@@ -16,6 +16,9 @@ type Item {
 
   "Keywords"
   keywords: [String!]!
+
+  "Publication date in YYYY-MM-DD format" 
+  publishedOn: String!
 }
 
 """
@@ -50,6 +53,9 @@ input CreateItemInput {
 
   "Keywords"
   keywords: [String!]
+
+  "Publication date in YYYY-MM-DD format" 
+  publishedOn: String
 }
 
 """
@@ -67,6 +73,9 @@ input UpdateItemInput {
 
   "Keywords"
   keywords: [String!]
+
+  "Publication date in YYYY-MM-DD format" 
+  publishedOn: String
 }
 
 """

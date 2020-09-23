@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import pg from "pg";
 
 import * as db from "../zapatos/src";
@@ -5,20 +6,34 @@ import * as s from "../zapatos/schema";
 
 import { Item } from "../core";
 
+/*
+ * Convert a date to an ISO 8601 string in YYYY-MM-DD format.
+ */
+const dateToISO = (d: Date): string => d.toISOString().substring(0, 10);
+
+/*
+ * Convert an item row to an item type setting any default values required.
+ */
 const rowToItem = (item: s.items.Selectable | s.items.JSONSelectable): Item => ({
   ...item,
   keywords: item.keywords ? item.keywords : [],
-  publishedOn:
-    typeof item.published_on === "string" ? item.published_on : item.published_on.toISOString().substring(0, 10),
+  publishedOn: typeof item.published_on === "string" ? item.published_on : dateToISO(item.published_on),
 });
 
-type CreateItemProps = Pick<Item, "title" | "description" | "content" | "keywords">;
+type CreateItemProps = Pick<Item, "title" | "description" | "content" | "keywords" | "publishedOn">;
 
 /*
  * Create a new item, returns the newly created item
  */
 export const create = async (pool: pg.Pool, item: CreateItemProps): Promise<Item> => {
-  const insertedItem = await db.insert("items", item).run(pool);
+  const { publishedOn: published_on, ...rest } = item;
+
+  const insertedItem = await db
+    .insert("items", {
+      ...rest,
+      ...(published_on && { published_on }),
+    })
+    .run(pool);
 
   return rowToItem(insertedItem);
 };
@@ -40,13 +55,24 @@ export const getById = async (pool: pg.Pool, id: string): Promise<Item | null> =
   return item ? rowToItem(item) : null;
 };
 
-type UpdateItemProps = Partial<Pick<Item, "title" | "description" | "content" | "keywords">>;
+type UpdateItemProps = Partial<Pick<Item, "title" | "description" | "content" | "keywords" | "publishedOn">>;
 
 /*
  * Update an item given its ID.
  */
 export const update = async (pool: pg.Pool, id: string, fields: UpdateItemProps): Promise<Item | null> => {
-  const [item] = await db.update("items", fields, { id }).run(pool);
+  const { publishedOn: published_on, ...rest } = fields;
+
+  const [item] = await db
+    .update(
+      "items",
+      {
+        ...rest,
+        ...(published_on && { published_on }),
+      },
+      { id }
+    )
+    .run(pool);
 
   return item ? getById(pool, id) : null;
 };

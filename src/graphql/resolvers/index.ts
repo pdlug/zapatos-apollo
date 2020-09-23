@@ -13,7 +13,7 @@ const item: QueryResolvers["item"] = async (_root, { id }) => {
 const createItem: MutationResolvers["createItem"] = async (_root, { input }) => {
   const item = await db.Items.create(db.pool, {
     ...input,
-    keywords: input.keywords ? input.keywords : [],
+    keywords: input.keywords ?? [],
   });
 
   return item;
@@ -25,6 +25,7 @@ const updateItem: MutationResolvers["updateItem"] = async (_root, { id, input })
     ...(input.content !== undefined && { content: input.content }),
     ...(input.description !== undefined && { description: input.description }),
     ...(input.keywords && { keywords: input.keywords }),
+    ...(input.publishedOn && { publishedOn: input.publishedOn }),
   });
 
   return item;
