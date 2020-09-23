@@ -4,21 +4,24 @@ import pg from "pg";
 import * as db from "../zapatos/src";
 import * as s from "../zapatos/schema";
 
-import { Item } from "../core";
-
-/*
- * Convert a date to an ISO 8601 string in YYYY-MM-DD format.
- */
-const dateToISO = (d: Date): string => d.toISOString().substring(0, 10);
+import type { Item } from "../core";
+import { formatISO } from "date-fns";
 
 /*
  * Convert an item row to an item type setting any default values required.
  */
-const rowToItem = (item: s.items.Selectable | s.items.JSONSelectable): Item => ({
-  ...item,
-  keywords: item.keywords ? item.keywords : [],
-  publishedOn: typeof item.published_on === "string" ? item.published_on : dateToISO(item.published_on),
-});
+const rowToItem = (item: s.items.Selectable | s.items.JSONSelectable): Item => {
+  const publishedOn =
+    typeof item.published_on === "string"
+      ? item.published_on
+      : formatISO(item.published_on, { representation: "date" });
+
+  return {
+    ...item,
+    keywords: item.keywords ?? [],
+    publishedOn,
+  };
+};
 
 type CreateItemProps = Pick<Item, "title" | "description" | "content" | "keywords" | "publishedOn">;
 
