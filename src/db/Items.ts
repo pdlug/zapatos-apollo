@@ -23,7 +23,8 @@ const rowToItem = (item: s.items.Selectable | s.items.JSONSelectable): Item => {
   };
 };
 
-type CreateItemProps = Pick<Item, "title" | "description" | "content" | "keywords" | "publishedOn">;
+type CreateItemProps = Pick<Item, "title" | "description" | "content" | "keywords"> &
+  Partial<Pick<Item, "publishedOn">>;
 
 /*
  * Create a new item, returns the newly created item
