@@ -44,6 +44,7 @@
     "graphql-schema-linter": "^1.0.1",
     "husky": "^4.3.0",
     "jest": "^26.4.2",
+    "lint-staged": "^10.4.0",
     "prettier": "^2.1.2",
     "ts-jest": "^26.4.0",
     "ts-node": "^9.0.0",
@@ -60,8 +61,13 @@
   },
   "husky": {
     "hooks": {
+      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "lint-staged": {
+    "*.graphql": ["graphql-schema-linter src/**/*.graphql"],
+    "*.{js,jsx,ts,tsx}": "eslint"
   },
   "jest": {
     "moduleFileExtensions": [

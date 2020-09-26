@@ -109,7 +109,10 @@ type Query {
   ): [User!]!
 
   "Retrieve a user by ID"
-  user(id: ID!): User
+  user(
+    "ID of the user"
+    id: ID!
+  ): User
 }
 
 """
