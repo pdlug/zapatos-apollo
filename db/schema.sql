@@ -79,7 +79,7 @@ CREATE TABLE public.schema_migrations (
 CREATE TABLE public.users (
     id uuid DEFAULT public.gen_random_uuid() NOT NULL,
     email text NOT NULL,
-    name text,
+    name text NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL
 );

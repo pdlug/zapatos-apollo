@@ -1,4 +1,18 @@
 """
+A user
+"""
+type User {
+  "Primary identifier"
+  id: ID!
+
+  "Email address"
+  email: String!
+
+  "Name"
+  name: String!
+}
+
+"""
 A item containing some content
 """
 type Item {
@@ -17,25 +31,8 @@ type Item {
   "Keywords"
   keywords: [String!]!
 
-  "Publication date in YYYY-MM-DD format" 
+  "Publication date in YYYY-MM-DD format"
   publishedOn: String!
-}
-
-"""
-Query root
-"""
-type Query {
-  "Retrieve all items"
-  items(
-    "Search query (optional)"
-    q: String
-  ): [Item!]!
-
-  "Retrieve an item by its ID"
-  item(
-    "ID of the item"
-    id: ID!
-  ): Item
 }
 
 """
@@ -54,7 +51,7 @@ input CreateItemInput {
   "Keywords"
   keywords: [String!]
 
-  "Publication date in YYYY-MM-DD format" 
+  "Publication date in YYYY-MM-DD format"
   publishedOn: String
 }
 
@@ -74,8 +71,45 @@ input UpdateItemInput {
   "Keywords"
   keywords: [String!]
 
-  "Publication date in YYYY-MM-DD format" 
+  "Publication date in YYYY-MM-DD format"
   publishedOn: String
+}
+
+"""
+Register a new user account
+"""
+input RegisterUserInput {
+  "Email address"
+  email: String!
+
+  "Name"
+  name: String!
+}
+
+"""
+Query root
+"""
+type Query {
+  "Retrieve all items"
+  items(
+    "Search query (optional)"
+    q: String
+  ): [Item!]!
+
+  "Retrieve an item by its ID"
+  item(
+    "ID of the item"
+    id: ID!
+  ): Item
+
+  "Retrieve all users"
+  users(
+    "Search query (optional)"
+    q: String
+  ): [User!]!
+
+  "Retrieve a user by ID"
+  user(id: ID!): User
 }
 
 """
@@ -102,6 +136,12 @@ type Mutation {
     "ID of the item to delete"
     id: ID!
   ): Boolean
+
+  "Register (create) a new user"
+  registerUser(
+    "User to register"
+    input: RegisterUserInput!
+  ): User
 }
 
 schema {

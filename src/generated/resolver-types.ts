@@ -1,6 +1,7 @@
 /* eslint-disable */
 /* AUTO GENERATED, DO NOT EDIT */
 import { GraphQLResolveInfo } from 'graphql';
+import { Context } from '../graphql/types';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
@@ -11,6 +12,17 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+};
+
+/** A user */
+export type User = {
+  __typename?: 'User';
+  /** Primary identifier */
+  id: Scalars['ID'];
+  /** Email address */
+  email: Scalars['String'];
+  /** Name */
+  name: Scalars['String'];
 };
 
 /** A item containing some content */
@@ -28,27 +40,6 @@ export type Item = {
   keywords: Array<Scalars['String']>;
   /** Publication date in YYYY-MM-DD format */
   publishedOn: Scalars['String'];
-};
-
-/** Query root */
-export type Query = {
-  __typename?: 'Query';
-  /** Retrieve all items */
-  items: Array<Item>;
-  /** Retrieve an item by its ID */
-  item?: Maybe<Item>;
-};
-
-
-/** Query root */
-export type QueryItemsArgs = {
-  q?: Maybe<Scalars['String']>;
-};
-
-
-/** Query root */
-export type QueryItemArgs = {
-  id: Scalars['ID'];
 };
 
 /** Item to create */
@@ -79,6 +70,51 @@ export type UpdateItemInput = {
   publishedOn?: Maybe<Scalars['String']>;
 };
 
+/** Register a new user account */
+export type RegisterUserInput = {
+  /** Email address */
+  email: Scalars['String'];
+  /** Name */
+  name: Scalars['String'];
+};
+
+/** Query root */
+export type Query = {
+  __typename?: 'Query';
+  /** Retrieve all items */
+  items: Array<Item>;
+  /** Retrieve an item by its ID */
+  item?: Maybe<Item>;
+  /** Retrieve all users */
+  users: Array<User>;
+  /** Retrieve a user by ID */
+  user?: Maybe<User>;
+};
+
+
+/** Query root */
+export type QueryItemsArgs = {
+  q?: Maybe<Scalars['String']>;
+};
+
+
+/** Query root */
+export type QueryItemArgs = {
+  id: Scalars['ID'];
+};
+
+
+/** Query root */
+export type QueryUsersArgs = {
+  q?: Maybe<Scalars['String']>;
+};
+
+
+/** Query root */
+export type QueryUserArgs = {
+  id: Scalars['ID'];
+};
+
 /** Mutation root */
 export type Mutation = {
   __typename?: 'Mutation';
@@ -88,6 +124,8 @@ export type Mutation = {
   updateItem?: Maybe<Item>;
   /** Delete an item */
   deleteItem?: Maybe<Scalars['Boolean']>;
+  /** Register (create) a new user */
+  registerUser?: Maybe<User>;
 };
 
 
@@ -107,6 +145,12 @@ export type MutationUpdateItemArgs = {
 /** Mutation root */
 export type MutationDeleteItemArgs = {
   id: Scalars['ID'];
+};
+
+
+/** Mutation root */
+export type MutationRegisterUserArgs = {
+  input: RegisterUserInput;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -188,29 +232,40 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Item: ResolverTypeWrapper<Item>;
+  User: ResolverTypeWrapper<User>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  Query: ResolverTypeWrapper<{}>;
+  Item: ResolverTypeWrapper<Item>;
   CreateItemInput: CreateItemInput;
   UpdateItemInput: UpdateItemInput;
+  RegisterUserInput: RegisterUserInput;
+  Query: ResolverTypeWrapper<{}>;
   Mutation: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Item: Item;
+  User: User;
   ID: Scalars['ID'];
   String: Scalars['String'];
-  Query: {};
+  Item: Item;
   CreateItemInput: CreateItemInput;
   UpdateItemInput: UpdateItemInput;
+  RegisterUserInput: RegisterUserInput;
+  Query: {};
   Mutation: {};
   Boolean: Scalars['Boolean'];
 }>;
 
-export type ItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = ResolversObject<{
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  email: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+}>;
+
+export type ItemResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Item'] = ResolversParentTypes['Item']> = ResolversObject<{
   id: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -220,18 +275,22 @@ export type ItemResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 }>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   items: Resolver<Array<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<QueryItemsArgs, never>>;
   item: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<QueryItemArgs, 'id'>>;
+  users: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUsersArgs, never>>;
+  user: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 }>;
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   createItem: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationCreateItemArgs, 'input'>>;
   updateItem: Resolver<Maybe<ResolversTypes['Item']>, ParentType, ContextType, RequireFields<MutationUpdateItemArgs, 'id' | 'input'>>;
   deleteItem: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteItemArgs, 'id'>>;
+  registerUser: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRegisterUserArgs, 'input'>>;
 }>;
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = Context> = ResolversObject<{
+  User: UserResolvers<ContextType>;
   Item: ItemResolvers<ContextType>;
   Query: QueryResolvers<ContextType>;
   Mutation: MutationResolvers<ContextType>;
@@ -242,4 +301,4 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type IResolvers<ContextType = Context> = Resolvers<ContextType>;

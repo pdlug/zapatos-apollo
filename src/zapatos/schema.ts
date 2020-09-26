@@ -98,14 +98,14 @@ export declare namespace users {
   export interface Selectable {
     id: string;
     email: string;
-    name: string | null;
+    name: string;
     created_at: Date;
     updated_at: Date;
   }
   export interface Insertable {
     id?: string | Parameter<string> | DefaultType | SQLFragment;
     email: string | Parameter<string> | SQLFragment;
-    name?: string | Parameter<string> | null | DefaultType | SQLFragment;
+    name: string | Parameter<string> | SQLFragment;
     created_at?: Date | Parameter<Date> | DateString | DefaultType | SQLFragment;
     updated_at?: Date | Parameter<Date> | DateString | DefaultType | SQLFragment;
   }

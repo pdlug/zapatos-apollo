@@ -15,3 +15,4 @@ generates:
       avoidOptionals:
         inputValue: false
         object: false
+      contextType: ../graphql/types#Context
